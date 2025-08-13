@@ -39,17 +39,14 @@ stages:
         tags: |
           $(tag)
 
-    - task: Bash@3
+    - script: |
+        terraform init -backend-config="backend.tfvars"
+        terraform apply --auto-approve
       displayName: terraform init & apply
-      inputs:
-        targetType: 'inline'
-        script: |
-          export ARM_CLIENT_ID="${ARM_CLIENT_ID}"
-          export ARM_CLIENT_SECRET = "${ARM_CLIENT_SERCET}"
-          export ARM_TENANT_ID="${ARM_TENANT_ID}"
-          export ARM_ACCESS_KEY="${ARM_ACCESS_KEY}"
-          ARM_SUBSCRIPTION_ID="${ARM_SUBSCRIPTION_ID}"
-          
-          terraform init -backend-config="backend.tfvars"
-          terraform apply --auto-approve
-        workingDirectory: 'CHAP09/terraform-aci'
+      env:
+        ARM_CLIENT_ID: ${ARM_CLIENT_ID}
+        ARM_CLIENT_SECRET: ${ARM_CLIENT_SERCET}
+        ARM_TENANT_ID: ${ARM_TENANT_ID}
+        ARM_SUBSCRIPTION_ID: ${ARM_SUBSCRIPTION_ID}
+        ARM_ACCESS_KEY: ${ARM_ACCESS_KEY}
+      workingDirectory: 'CHAP09/terraform-aci'
