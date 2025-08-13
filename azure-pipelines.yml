@@ -14,7 +14,7 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '6492ac25-243b-4b63-bbda-c8f22116152c'
-  imageRepository: 'skrytyzubrlearningdevopssecondedition'
+  imageRepository: 'demobook'
   containerRegistry: 'acrdemomc.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/CHAP09/appdocker/Dockerfile'
   tag: '$(Build.BuildId)'
@@ -32,12 +32,10 @@ stages:
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+        containerRegistry: 'acrdemomc'
+        repository: 'acrdemomc/demobook'
+        command: 'buildAndPush'
+        Dockerfile: 'CHAP09/appdocker/Dockerfile'
 
     - script: |
         terraform init -backend-config="backend.tfvars"
