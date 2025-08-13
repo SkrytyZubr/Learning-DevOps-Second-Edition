@@ -5,6 +5,9 @@
 trigger:
 - main
 
+pool:
+  name: wsl
+
 resources:
 - repo: self
 
